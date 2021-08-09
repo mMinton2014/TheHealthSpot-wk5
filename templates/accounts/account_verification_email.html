@@ -1,0 +1,10 @@
+{% autoescape off %}
+
+Hello {{user.firstName}}, 
+
+Please click on the link below to confirm your account registration for The Health Spot! 
+http://{{domain}}{% url 'activate' uidb64=uid token=token %}
+
+If this was not you, please ignore this email. 
+
+{% endautoescape %}
