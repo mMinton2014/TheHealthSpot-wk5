@@ -6,7 +6,10 @@ import datetime
 from .models import Order, OrderProduct
 
 # Create your views here.
-def place_order(request, total=0, quantity=0):
+def payments(request):
+    return render(request, 'orders/payments.html')
+
+def place_order(request, total=0, quantity=0,):
     current_user = request.user
     cart_items = CartItem.objects.filter(user=current_user)
     cart_count = cart_items.count()
@@ -52,6 +55,7 @@ def place_order(request, total=0, quantity=0):
             order_number = current_date + str(data.id)
             data.order_number = order_number
             data.save()
+            
             order = Order.objects.get(user=current_user, is_ordered=False, order_number=order_number)
             context = {
                 'order': order,
@@ -61,5 +65,7 @@ def place_order(request, total=0, quantity=0):
                 'grand_total': grand_total,
             }
             return render(request, 'orders/payments.html', context)
+        else: 
+            print('form invalid')
     else: 
         return redirect('checkout')
